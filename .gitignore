@@ -102,3 +102,13 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# data files
+*.json
+*.csv
+
+# DS_Store
+.DS_Store
+
+# config
+config.py
