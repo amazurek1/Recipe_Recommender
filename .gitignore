@@ -106,6 +106,7 @@ venv.bak/
 # data files
 *.json
 *.csv
+*.pkl
 
 # DS_Store
 .DS_Store
