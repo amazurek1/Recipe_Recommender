@@ -111,5 +111,12 @@ venv.bak/
 # DS_Store
 .DS_Store
 
+# vscode
+.vscode
+
+# pycache
+__pycache__
+
 # config
 config.py
+config.json
