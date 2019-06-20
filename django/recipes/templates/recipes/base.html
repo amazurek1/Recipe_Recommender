@@ -1,0 +1,123 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <!-- Required meta tags -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=yes">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
+        {% if title %}
+            <title>Recipes Recommender - {{ title }}</title>
+        {% else %}
+            <title>Recipes Recommendation System</title>
+        {% endif %}
+    </head>
+    <body>
+        <h1 class="title">Are You Hungry?</h1>
+        <article class="container">
+            <section class="section">
+                <h2 class="section-title">Select Recipes</h2>
+                <div>
+                    <select id="select" multiple></select>
+                </div>
+                <button type="button" id="submit-btn">
+                    Submit
+                </button>
+            </section>
+            <section class="section">
+                <div id="results"></div>
+            </section>
+        </article>
+        
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script type="text/javascript">             
+            // Fetches options from backend and creates options
+            const select = document.querySelector('#select');
+            fetch('/api/recipes')
+                .then(data => data.json())
+                .then(data => {
+                    const frag = document.createDocumentFragment();
+                    
+                    data
+                    .map(({ recipe_id, title }) => {
+                        const option = document.createElement('option');
+                        option.classList.add('option');
+                        option.value = recipe_id;
+                        option.innerText = title;
+                        return option;
+                    })
+                    .forEach(o => frag.appendChild(o));
+
+                    select.appendChild(frag);
+                })
+                .catch(error => console.error(error));
+
+            // On click of submit
+            const submit = document.querySelector('#submit-btn');
+            const handleSubmit = (e) => {
+                /**
+                 * Get selected options
+                 * If less than one, prevent submission
+                 */
+                const selected = Array.from(
+                        select.querySelectorAll('option:checked'),
+                        ({ value }) => Number.parseInt(value)
+                    );
+                
+                if (!selected.length) return;
+                
+                // Fetch recommendations passing the selected options
+                const params = new URLSearchParams();
+                selected.forEach(id => params.append('recipe_id', id));
+                fetch(`/api/recs?${params.toString()}`)
+                    .then(data => data.json())
+                    .then(data => {
+                        const frag = document.createDocumentFragment();
+
+                        data
+                        .map(({ title, url }) => {
+                            const outer = document.createElement('div');
+                            outer.classList.add('result-item');
+                            
+                            // Create recipe name
+                            const resultTitle = document.createElement('h6');
+                            resultTitle.innerText = title;
+
+                            // Create anchor link
+                            const resultAnchor = document.createElement('a');
+                            resultAnchor.href = url;
+                            resultAnchor.innerText = 'Click Link';
+                            resultAnchor.target = '_blank';
+                    
+                            // Create the entire element
+                            outer.appendChild(resultTitle);
+                            outer.appendChild(resultAnchor);
+
+                            return outer;
+                        })
+                        .forEach(o => frag.appendChild(o));
+
+                        // Replace node
+                        const title = document.createElement('h2');
+                        title.innerText = 'Recommendations';
+                        title.classList.add('section-title');
+
+                        const results = document.querySelector('#results');
+                        const cloned = results.cloneNode(false);
+                        cloned.appendChild(title);
+                        cloned.appendChild(frag);
+                        results.parentElement.replaceChild(cloned, results);
+                    })
+            }
+            submit.addEventListener('click', handleSubmit);
+        </script>
+    </body>
+</html>
