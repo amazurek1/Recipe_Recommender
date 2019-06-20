@@ -11,16 +11,29 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import json
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# open json file and load information
+with open(os.path.join(BASE_DIR, 'config.json')) as settings_file:
+    settings = json.load(settings_file)
+
+# create a function to obtain the setting information loaded from json
+def get_info(setting, settings=settings):
+    """Get setting info or fail with ImproperlyConfigured"""
+    try:
+        return settings[setting]
+    except KeyError:
+        raise ImproperlyConfigured("Set the {} setting".format(setting))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'trm^qc_b$17gojz#xqdb!@+7%pnzp#-=-u8_-&8qmrstriy^!y'
+SECRET_KEY = get_info("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,11 +100,11 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=food,public'
         },
-        'NAME': 'recipes_db',
-        'USER': 'admin',
-        'PASSWORD': 'food4all',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': get_info("DB_NAME"),
+        'USER': get_info("USER"),
+        'PASSWORD': get_info("PASSWORD"),
+        'HOST': get_info("HOST"),
+        'PORT': get_info("PORT"),
         
     }
 }
