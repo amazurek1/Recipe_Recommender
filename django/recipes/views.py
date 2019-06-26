@@ -4,5 +4,5 @@ from django.shortcuts import render
 def home(request):
     return render(request, "recipes/home.html")
 
-def visuals(request):
-    return render(request, "recipes/visuals.html")
+def vis(request):
+    return render(request, "recipes/vis.html")
