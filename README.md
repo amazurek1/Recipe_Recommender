@@ -1,6 +1,8 @@
 # Are You Hungry? - A Recipe Recommender System
 
-The aim of this project was to create a content-based recipe recommender system with a SQL database backend and a front-end user interface which takes in input of ingredients from selected recipes and returns recommendations of recipes which are similar to the selected recipes based on their ingredients.
+<p align=center>
+![Project Demo](./videos/project_demo.gif)
+</p>
 
 ## Table of Contents
 
@@ -15,6 +17,11 @@ The aim of this project was to create a content-based recipe recommender system 
 
 ## Project Overview
 
+Throughout human history, food has continuously played a core role in many important events such as the Boston Tea Party in 1773 and the Great Famine or Irish Potato Famine between 1845 and 1849. Besides playing a role in large historical events, it is also an essential part of everyday life, especially for foodies or cooks such as myself, leading to frequent questions such as: what should I eat today, what ingredients do I have at home, what can I make from those ingredients?
+
+In the current technological age, it is very easy to go on the interent and search for recipes of any food I would like to make. However, although it is great that I can access this information at any point, it is overwhelming and impossible to read through the infinitesmal amount of information available to find the recipes I want to make. So how can I access the recipes I am interested in and also access the "hidden" recipes that I may also be interested in without too much work? This is where recommendation systems come in.
+
+The aim of this project is to create a content-based recipe recommender system with a SQL database backend and a front-end user interface which takes in input of ingredients from selected recipes and returns recommendations of recipes which are similar to the selected recipes based on their ingredients.
 
 ## Data Collection
 
@@ -22,7 +29,13 @@ Recipes were webscraped using <a src="https://github.com/micahcochran/scrape-sch
 
 After collection, the recipes were then cleaned, and separated into tables according to the database schema (discussed in the next section) before being loaded into the PostgreSQL database.
 
-## SQL Database
+## SQL Database Schema
+
+The database schema was sketched on <a src="https://dbdiagram.io/home">dbdiagram.io</a>, an online tool for database schema design created by a Singapore-based BI product company called Holistics. First sketching out the schema and then loading the data helped visualize exactly how the entity-relationship connections should be made to ensure simple extraction for data analysis, modeling, and sync to the recommender system application.
+
+<p align=center>
+    <img src="./images/db_schema.png" title="Database Schema">
+</p>
 
 ## Exploratory Data Analysis (EDA)
 

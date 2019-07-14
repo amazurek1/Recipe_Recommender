@@ -109,22 +109,6 @@ class Command(BaseCommand):
                 print("Error: Please enter a string to be searched.")
                 exit(1)
 
-        # query = options['query']
-        # preprocess query text and find the ids of the top recipes that fit it best
+        # preprocess query text and generate the ids of the top recipes that fit it best
         doc_ids = similar_documents(args, top_n=5)
         return doc_ids
-
-        # # create a connection with database
-        # with engine.begin() as connection:
-
-        #     # query from recipes class with filter and print results
-        #     # loop through list of ids
-        #     recs=[]
-        #     for id in doc_ids:
-        #         # insert each id into sql query to pull in the recipe data for the corresponding id
-        #         recipe = connection.execute(f"SELECT recipes.recipe_id, recipes.title, recipes.url FROM food.recipes WHERE recipe_id = {id}")
-        #         recs.append(recipe.fetchall())
-        #     print(recs)
-
-        # # close connection after query
-        # connection.close()
