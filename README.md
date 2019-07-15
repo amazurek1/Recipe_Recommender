@@ -1,7 +1,7 @@
 # Are You Hungry? - A Recipe Recommender System
 
 <p align="center">
-    <img src="./videos/project_demo.gif" title="Project Demo" height="400px" width="850px">
+    <img src="./videos/project_demo.gif" title="Project Demo" height="300px" width="750px">
 </p>
 
 ## Table of Contents
